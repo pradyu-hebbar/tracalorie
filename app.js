@@ -44,12 +44,15 @@ const StorageCtrl = (() => {
     deleteItemFromStorage: function (id) {
       let items = JSON.parse(localStorage.getItem("items"));
 
-      items.forEach(function (item, index) {
+      items.forEach((item, index) => {
         if (id === item.id) {
           items.splice(index, 1);
         }
       });
       localStorage.setItem("items", JSON.stringify(items));
+    },
+    clearItemsFromStorage: function () {
+      localStorage.removeItem("items");
     },
   };
 })();
@@ -124,9 +127,7 @@ const ItemCtrl = (() => {
     },
     deleteItem: function (id) {
       // Get ids
-      const ids = data.items.map(function (item) {
-        return item.id;
-      });
+      const ids = data.items.map((item) => item.id);
 
       // Get index
       const index = ids.indexOf(id);
@@ -437,6 +438,10 @@ const App = ((ItemCtrl, StorageCtrl, UICtrl) => {
     // Remove from UI
     UICtrl.removeItems();
 
+    // Clear from local storage
+    StorageCtrl.clearItemsFromStorage();
+
+    // Hide Ul
     UICtrl.hideList();
   };
 
